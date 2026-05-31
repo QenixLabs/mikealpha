@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Phone, Menu, X, ChevronDown } from "lucide-react"
+import { Menu, X, ChevronDown } from "lucide-react"
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -29,7 +29,7 @@ export default function Navbar() {
   const pathname = usePathname()
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
+    const onScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
@@ -39,7 +39,7 @@ export default function Navbar() {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
       scrolled
-        ? "bg-[#0F1B2E]/95 backdrop-blur-md border-b border-white/5"
+        ? "bg-white/80 backdrop-blur-xl border-b border-[#E5E5E0] shadow-sm"
         : "bg-transparent"
     }`}>
       <div className="max-w-7xl mx-auto px-5">
@@ -49,7 +49,7 @@ export default function Navbar() {
             <img
               src="/logo.png"
               alt="Mike Alpha Agro"
-              className={`h-9 w-auto object-contain transition-all duration-300 ${scrolled ? "brightness-0 invert" : "brightness-0 invert"}`}
+              className="h-24 w-auto object-contain"
             />
           </Link>
 
@@ -67,20 +67,20 @@ export default function Navbar() {
                     href={link.path}
                     className={`flex items-center gap-1 px-4 py-2 text-[14px] font-medium rounded-lg transition-colors ${
                       pathname.startsWith(link.path)
-                        ? "text-[#E85A3C]"
-                        : "text-white/70 hover:text-white"
+                        ? "text-coral"
+                        : "text-[#1A1A1A]/70 hover:text-[#1A1A1A]"
                     }`}
                   >
                     {link.label}
                     <ChevronDown className={`w-3.5 h-3.5 transition-transform ${productsOpen ? "rotate-180" : ""}`} />
                   </Link>
                   {productsOpen && (
-                    <div className="absolute top-full left-0 mt-2 bg-[#0F1B2E] rounded-xl shadow-2xl border border-white/10 py-2 min-w-[220px] overflow-hidden">
+                    <div className="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-lg border border-[#E5E5E0] py-2 min-w-[220px] overflow-hidden">
                       {link.children.map((child) => (
                         <Link
                           key={child.path}
                           href={child.path}
-                          className="block px-4 py-2.5 text-sm text-white/70 hover:text-[#E85A3C] hover:bg-white/5 transition-colors"
+                          className="block px-4 py-2.5 text-sm text-[#6B6B6B] hover:text-coral hover:bg-coral-subtle/50 transition-colors"
                         >
                           {child.label}
                         </Link>
@@ -94,12 +94,12 @@ export default function Navbar() {
                   href={link.path}
                   className={`relative px-4 py-2 text-[14px] font-medium rounded-lg transition-colors group ${
                     pathname === link.path
-                      ? "text-[#E85A3C]"
-                      : "text-white/70 hover:text-white"
+                      ? "text-coral"
+                      : "text-[#1A1A1A]/70 hover:text-[#1A1A1A]"
                   }`}
                 >
                   {link.label}
-                  <span className={`absolute bottom-0 left-4 right-4 h-px bg-[#E85A3C] rounded-full transition-all duration-300 ${
+                  <span className={`absolute bottom-0 left-4 right-4 h-0.5 bg-coral rounded-full transition-all duration-300 ${
                     pathname === link.path ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100"
                   }`} />
                 </Link>
@@ -108,21 +108,17 @@ export default function Navbar() {
           </div>
 
           {/* Right side */}
-          <div className="hidden lg:flex items-center gap-6">
-            <a href="tel:+918799290971" className="flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors">
-              <Phone className="w-3.5 h-3.5" />
-              <span className="font-medium">+91 87992 90971</span>
-            </a>
+          <div className="hidden lg:flex items-center gap-4">
             <Link
               href="/contact"
-              className="bg-[#E85A3C] hover:bg-[#D14A2E] text-white text-[13px] font-bold px-5 py-2.5 rounded-full transition-all"
+              className="bg-coral hover:bg-coral-dark text-white text-[13px] font-semibold px-5 py-2.5 rounded-xl transition-all"
             >
               Get In Touch
             </Link>
           </div>
 
           {/* Mobile */}
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 rounded-lg text-white">
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 rounded-lg text-[#1A1A1A]">
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
@@ -130,31 +126,31 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="lg:hidden mx-4 mb-4 bg-[#0F1B2E] rounded-2xl shadow-2xl border border-white/10 overflow-hidden">
+        <div className="lg:hidden mx-4 mb-4 bg-white rounded-2xl shadow-lg border border-[#E5E5E0] overflow-hidden">
           <div className="p-4 space-y-1">
             {navLinks.map((link) =>
               link.children ? (
                 <div key={link.path}>
-                  <button onClick={() => setProductsOpen(!productsOpen)} className="flex items-center justify-between w-full px-3 py-2.5 text-white/80 font-medium">
+                  <button onClick={() => setProductsOpen(!productsOpen)} className="flex items-center justify-between w-full px-3 py-2.5 text-[#1A1A1A]/80 font-medium">
                     {link.label}
                     <ChevronDown className={`w-4 h-4 transition-transform ${productsOpen ? "rotate-180" : ""}`} />
                   </button>
                   {productsOpen && (
                     <div className="pl-4 space-y-1">
                       {link.children.map((child) => (
-                        <Link key={child.path} href={child.path} className="block px-3 py-2 text-sm text-white/50 hover:text-[#E85A3C]">{child.label}</Link>
+                        <Link key={child.path} href={child.path} className="block px-3 py-2 text-sm text-[#6B6B6B] hover:text-coral">{child.label}</Link>
                       ))}
                     </div>
                   )}
                 </div>
               ) : (
                 <Link key={link.path} href={link.path} className={`block px-3 py-2.5 font-medium rounded-lg ${
-                  pathname === link.path ? "text-[#E85A3C] bg-white/5" : "text-white/80"
+                  pathname === link.path ? "text-coral bg-coral-subtle/30" : "text-[#1A1A1A]/80"
                 }`}>{link.label}</Link>
               )
             )}
-            <div className="pt-3 border-t border-white/10">
-              <Link href="/contact" className="block bg-[#E85A3C] text-white text-center font-bold py-2.5 rounded-full">Get In Touch</Link>
+            <div className="pt-3 border-t border-[#E5E5E0]">
+              <Link href="/contact" className="block bg-coral text-white text-center font-semibold py-2.5 rounded-xl">Get In Touch</Link>
             </div>
           </div>
         </div>

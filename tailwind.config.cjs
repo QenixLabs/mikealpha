@@ -51,6 +51,25 @@ module.exports = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        navy: {
+          DEFAULT: "#19204A",
+          light: "#2A3470",
+        },
+        coral: {
+          DEFAULT: "#EE4034",
+          dark: "#D93A2F",
+          subtle: "#FEE8E6",
+        },
+        brand: {
+          bg: "#FAFAF8",
+          "bg-alt": "#F5F5F0",
+          surface: "#FFFFFF",
+          border: "#E5E5E0",
+        },
+      },
+      fontFamily: {
+        heading: ["Raleway", "sans-serif"],
+        body: ["Inter", "sans-serif"],
       },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",

@@ -11,103 +11,76 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="relative bg-[#0F1B2E] overflow-hidden">
-      {/* Main CTA area */}
-      <div className="pt-16 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[3px] text-[#E85A3C] mb-4">
-                Start Growing Better
-              </p>
-              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white font-montserrat leading-tight">
-                Ready to Transform<br />
-                <span className="font-playfair italic font-normal text-[#E85A3C]">Your Harvest?</span>
-              </h3>
-            </div>
-            <div className="lg:text-right">
-              <p className="text-white/50 mb-6 max-w-md lg:ml-auto">
-                Connect with our agronomy team for personalized crop nutrition recommendations tailored to your soil and climate.
-              </p>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-3 bg-[#E85A3C] hover:bg-[#D14A2E] text-white font-bold px-8 py-4 rounded-full transition-all hover:shadow-xl hover:shadow-[#E85A3C]/20 text-lg"
-              >
-                Talk to an Expert
-                <ArrowUpRight className="w-5 h-5" />
-              </Link>
-            </div>
+    <footer className="relative bg-white border-t border-[#E5E5E0]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        {/* Main footer */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-12 gap-10 py-16">
+          {/* Brand */}
+          <div className="lg:col-span-4">
+            <img src="/logo.png" alt="Mike Alpha Agro" className="h-10 w-auto mb-5" />
+            <p className="text-[#6B6B6B] text-sm leading-relaxed max-w-xs">
+              Precision crop nutrition for Indian agriculture. 46+ formulations engineered for maximum yields.
+            </p>
           </div>
 
-          {/* Footer grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 pt-12 border-t border-white/10">
-            {/* Brand */}
-            <div className="lg:col-span-1">
-              <img src="/logo.png" alt="Mike Alpha Agro" className="h-10 w-auto brightness-0 invert mb-4" />
-              <p className="text-white/40 text-sm leading-relaxed">
-                Stronger Roots. Healthier Crops. Better Harvests. Science-driven crop nutrition for Indian agriculture.
-              </p>
-            </div>
-
-            {/* Quick Links */}
-            <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-white/30 mb-5">Navigate</h4>
-              <ul className="space-y-3">
-                {["Home", "About", "Products", "Contact"].map((label) => (
-                  <li key={label}>
-                    <Link href={label === "Home" ? "/" : `/${label.toLowerCase()}`} className="text-white/50 hover:text-[#E85A3C] transition-colors text-sm flex items-center gap-1 group">
-                      {label}
-                      <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Products */}
-            <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-white/30 mb-5">Products</h4>
-              <ul className="space-y-3">
-                {catLinks.map((item) => (
-                  <li key={item.cat}>
-                    <Link href={`/products?category=${encodeURIComponent(item.cat)}`} className="text-white/50 hover:text-[#E85A3C] transition-colors text-sm flex items-center gap-1 group">
-                      {item.label}
-                      <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Contact */}
-            <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-white/30 mb-5">Contact</h4>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-3">
-                  <Phone className="w-4 h-4 mt-0.5 text-[#E85A3C] shrink-0" />
-                  <span className="text-white/50 text-sm">+91 87992 90971</span>
+          {/* Navigate */}
+          <div className="lg:col-span-2">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-[#1A1A1A] mb-5">Navigate</h4>
+            <ul className="space-y-3">
+              {["Home", "About", "Products", "Contact"].map((label) => (
+                <li key={label}>
+                  <Link href={label === "Home" ? "/" : `/${label.toLowerCase()}`} className="text-[#6B6B6B] hover:text-coral transition-colors text-sm flex items-center gap-1 group">
+                    {label}
+                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" />
+                  </Link>
                 </li>
-                <li className="flex items-start gap-3">
-                  <Mail className="w-4 h-4 mt-0.5 text-[#E85A3C] shrink-0" />
-                  <span className="text-white/50 text-sm">mikealphaagro@gmail.com</span>
+              ))}
+            </ul>
+          </div>
+
+          {/* Products */}
+          <div className="lg:col-span-3">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-[#1A1A1A] mb-5">Products</h4>
+            <ul className="space-y-3">
+              {catLinks.map((item) => (
+                <li key={item.cat}>
+                  <Link href={`/products?category=${encodeURIComponent(item.cat)}`} className="text-[#6B6B6B] hover:text-coral transition-colors text-sm flex items-center gap-1 group">
+                    {item.label}
+                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" />
+                  </Link>
                 </li>
-                <li className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 mt-0.5 text-[#E85A3C] shrink-0" />
-                  <span className="text-white/50 text-sm">Gandhinagar, Gujarat, India</span>
-                </li>
-              </ul>
-            </div>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div className="lg:col-span-3">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-[#1A1A1A] mb-5">Contact</h4>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <Phone className="w-4 h-4 mt-0.5 text-coral shrink-0" />
+                <span className="text-[#6B6B6B] text-sm">+91 87992 90971</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Mail className="w-4 h-4 mt-0.5 text-coral shrink-0" />
+                <span className="text-[#6B6B6B] text-sm">mikealphaagro@gmail.com</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <MapPin className="w-4 h-4 mt-0.5 text-coral shrink-0" />
+                <span className="text-[#6B6B6B] text-sm">Gandhinagar, Gujarat, India</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
 
       {/* Bottom */}
-      <div className="border-t border-white/5">
+      <div className="border-t border-[#E5E5E0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-white/25 text-xs">&copy; {new Date().getFullYear()} Mike Alpha Agro. All Rights Reserved.</p>
-          <div className="flex items-center gap-6 text-xs text-white/25">
-            <span className="hover:text-white/50 cursor-pointer transition-colors">Privacy</span>
-            <span className="hover:text-white/50 cursor-pointer transition-colors">Terms</span>
+          <p className="text-[#9CA3AF] text-xs">&copy; {new Date().getFullYear()} Mike Alpha Agro. All Rights Reserved.</p>
+          <div className="flex items-center gap-6 text-xs text-[#9CA3AF]">
+            <span className="hover:text-[#6B6B6B] cursor-pointer transition-colors">Privacy</span>
+            <span className="hover:text-[#6B6B6B] cursor-pointer transition-colors">Terms</span>
           </div>
         </div>
       </div>
