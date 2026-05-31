@@ -133,7 +133,7 @@ export default function Home() {
   return (
     <div className="bg-[#FAFAF8]">
       {/* ==================== HERO ==================== */}
-      <section ref={heroRef} id="home-hero" className="relative min-h-[100dvh] flex items-end overflow-hidden">
+      <section ref={heroRef} id="home-hero" className="relative min-h-[100dvh] flex items-center sm:items-end overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0">
           <img
