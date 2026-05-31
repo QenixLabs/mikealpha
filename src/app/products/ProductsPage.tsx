@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
-import { Grid3X3, List, ChevronDown, SlidersHorizontal } from "lucide-react"
+import { Grid3X3, List, SlidersHorizontal, ArrowRight, X } from "lucide-react"
 import { products, categories, productLines } from "../../data/products"
 import type { Product } from "../../data/products"
 import PageBanner from "../../components/PageBanner"
@@ -45,109 +45,224 @@ export default function Products() {
 
   useEffect(() => { setPage(1) }, [selectedCategory, selectedProductLine])
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+  }, [page])
+
+  const activeFiltersCount = (selectedCategory !== "All" ? 1 : 0) + (selectedProductLine !== "All" ? 1 : 0)
+
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-white min-h-screen"
+    >
       <PageBanner title="Our Products" backgroundImage="/products-banner.jpg"
         breadcrumbs={[{ label: "Home", path: "/" }, { label: "Products" }]} />
 
-      <section className="py-12 lg:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          {/* Top bar */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-            <p className="text-sm text-[#9CA3AF]">
-              Showing {(page - 1) * ITEMS_PER_PAGE + 1}–{Math.min(page * ITEMS_PER_PAGE, filteredProducts.length)} of {filteredProducts.length} results
-              {(selectedCategory !== "All" || selectedProductLine !== "All") && <span className="text-coral ml-2">(filtered)</span>}
-            </p>
-            <div className="flex items-center gap-3">
-              <button onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)} className="lg:hidden flex items-center gap-2 px-4 py-2.5 bg-white border border-[#E5E5E0] rounded-xl text-sm font-medium text-navy/70">
-                <SlidersHorizontal className="w-4 h-4" /> Filters
+      {/* Category pills */}
+      <section className="border-b border-[#E5E5E0]"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4"
+        >
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1"
+          >
+            <button
+              onClick={() => setSelectedCategory("All")}
+              className={`shrink-0 px-4 py-2 rounded-xl text-[13px] font-medium transition-all ${selectedCategory === "All" ? "bg-navy text-white" : "bg-[#FAFAF8] text-[#6B6B6B] hover:text-navy border border-[#E5E5E0]"}`}
+            >
+              All Products
+            </button>
+            {categories.filter(c => c !== "All").map(cat => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(selectedCategory === cat ? "All" : cat)}
+                className={`shrink-0 px-4 py-2 rounded-xl text-[13px] font-medium transition-all ${selectedCategory === cat ? "bg-navy text-white" : "bg-[#FAFAF8] text-[#6B6B6B] hover:text-navy border border-[#E5E5E0]"}`}
+              >
+                {cat}
               </button>
-              <div className="relative">
-                <select value={sortIndex} onChange={e => setSortIndex(Number(e.target.value))}
-                  className="appearance-none bg-white border border-[#E5E5E0] rounded-xl px-4 py-2.5 pr-10 text-sm font-medium text-navy/70 cursor-pointer focus:outline-none focus:ring-2 focus:ring-coral/30">
-                  {sortOptions.map((opt, i) => <option key={i} value={i}>Sort: {opt.label}</option>)}
-                </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9CA3AF] pointer-events-none" />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 lg:py-16"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6"
+        >
+          {/* Top bar */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8"
+          >
+            <p className="text-sm text-[#9CA3AF]"
+            >
+              Showing {(page - 1) * ITEMS_PER_PAGE + 1}&ndash;{Math.min(page * ITEMS_PER_PAGE, filteredProducts.length)} of {filteredProducts.length} results
+              {activeFiltersCount > 0 && (
+                <span className="text-coral ml-2">({activeFiltersCount} filter{activeFiltersCount > 1 ? "s" : ""})</span>
+              )}
+            </p>
+            <div className="flex items-center gap-3"
+            >
+              <button onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)} className="lg:hidden flex items-center gap-2 px-4 py-2.5 bg-white border border-[#E5E5E0] rounded-xl text-sm font-medium text-navy/70"
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                Filters {activeFiltersCount > 0 && <span className="ml-1 w-5 h-5 bg-coral text-white text-[10px] rounded-full flex items-center justify-center">{activeFiltersCount}</span>}
+              </button>
+
+              {/* Sort buttons */}
+              <div className="hidden sm:flex items-center bg-[#FAFAF8] border border-[#E5E5E0] rounded-xl p-1"
+              >
+                {sortOptions.map((opt, i) => (
+                  <button
+                    key={opt.label}
+                    onClick={() => setSortIndex(i)}
+                    className={`px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all ${sortIndex === i ? "bg-white text-navy shadow-sm" : "text-[#9CA3AF] hover:text-navy"}`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
               </div>
-              <div className="hidden sm:flex bg-white border border-[#E5E5E0] rounded-xl overflow-hidden">
-                <button onClick={() => setViewMode("grid")} className={`p-2.5 transition-colors ${viewMode === "grid" ? "bg-coral text-white" : "text-navy/30 hover:text-navy/60"}`}>
+
+              <div className="hidden sm:flex bg-[#FAFAF8] border border-[#E5E5E0] rounded-xl overflow-hidden"
+              >
+                <button onClick={() => setViewMode("grid")} className={`p-2.5 transition-colors ${viewMode === "grid" ? "bg-navy text-white" : "text-navy/30 hover:text-navy/60"}`}
+                >
                   <Grid3X3 className="w-4 h-4" />
                 </button>
-                <button onClick={() => setViewMode("list")} className={`p-2.5 transition-colors ${viewMode === "list" ? "bg-coral text-white" : "text-navy/30 hover:text-navy/60"}`}>
+                <button onClick={() => setViewMode("list")} className={`p-2.5 transition-colors ${viewMode === "list" ? "bg-navy text-white" : "text-navy/30 hover:text-navy/60"}`}
+                >
                   <List className="w-4 h-4" />
                 </button>
               </div>
             </div>
           </div>
 
-          <div className="flex gap-8">
+          <div className="flex gap-8"
+          >
             {/* Sidebar */}
-            <aside className={`${mobileFiltersOpen ? "block" : "hidden"} lg:block w-full lg:w-64 shrink-0`}>
-              <div className="bg-white border border-[#E5E5E0] rounded-2xl p-6 lg:sticky lg:top-24">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-[#9CA3AF] mb-4">Categories</h4>
-                <div className="space-y-2.5 mb-8">
-                  {categories.map(cat => (
-                    <label key={cat} className="flex items-center gap-3 cursor-pointer group">
-                      <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-colors ${selectedCategory === cat ? "border-coral bg-coral" : "border-[#E5E5E0] group-hover:border-navy/30"}`}>
-                        {selectedCategory === cat && <svg className="w-2.5 h-2.5 text-white" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="2" fill="none"/></svg>}
-                      </div>
-                      <span onClick={() => setSelectedCategory(cat)} className={`text-sm transition-colors ${selectedCategory === cat ? "text-coral font-semibold" : "text-[#6B6B6B] group-hover:text-navy"}`}>{cat}</span>
-                    </label>
+            <aside className={`${mobileFiltersOpen ? "block" : "hidden"} lg:block w-full lg:w-64 shrink-0`}
+            >
+              <div className="bg-white border border-[#E5E5E0] rounded-2xl p-6 lg:sticky lg:top-24"
+              >
+                <div className="flex items-center justify-between mb-5"
+                >
+                  <h4 className="text-[11px] font-semibold uppercase tracking-[3px] text-[#9CA3AF]"
+                  >Categories</h4>
+                  {selectedCategory !== "All" && (
+                    <button onClick={() => setSelectedCategory("All")} className="text-coral text-[11px] font-semibold hover:underline"
+                    >Clear</button>
+                  )}
+                </div>
+                <div className="space-y-2 mb-8"
+                >
+                  {categories.filter(c => c !== "All").map(cat => (
+                    <button
+                      key={cat}
+                      onClick={() => setSelectedCategory(selectedCategory === cat ? "All" : cat)}
+                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all text-left ${selectedCategory === cat ? "bg-coral-subtle/40 text-coral font-semibold" : "text-[#6B6B6B] hover:bg-[#FAFAF8]"}`}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full transition-colors ${selectedCategory === cat ? "bg-coral" : "bg-[#E5E5E0]"}`} />
+                      {cat}
+                    </button>
                   ))}
                 </div>
 
-                <h4 className="text-xs font-bold uppercase tracking-wider text-[#9CA3AF] mb-4">Product Lines</h4>
-                <div className="space-y-2.5">
+                <div className="flex items-center justify-between mb-5"
+                >
+                  <h4 className="text-[11px] font-semibold uppercase tracking-[3px] text-[#9CA3AF]"
+                  >Product Lines</h4>
+                  {selectedProductLine !== "All" && (
+                    <button onClick={() => setSelectedProductLine("All")} className="text-coral text-[11px] font-semibold hover:underline"
+                    >Clear</button>
+                  )}
+                </div>
+                <div className="space-y-2"
+                >
                   {productLines.map(line => (
-                    <label key={line} className="flex items-center gap-3 cursor-pointer group">
-                      <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-colors ${selectedProductLine === line ? "border-coral bg-coral" : "border-[#E5E5E0] group-hover:border-navy/30"}`}>
-                        {selectedProductLine === line && <svg className="w-2.5 h-2.5 text-white" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="2" fill="none"/></svg>}
-                      </div>
-                      <span onClick={() => setSelectedProductLine(line)} className={`text-sm transition-colors ${selectedProductLine === line ? "text-coral font-semibold" : "text-[#6B6B6B] group-hover:text-navy"}`}>{line}</span>
-                    </label>
+                    <button
+                      key={line}
+                      onClick={() => setSelectedProductLine(selectedProductLine === line ? "All" : line)}
+                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all text-left ${selectedProductLine === line ? "bg-coral-subtle/40 text-coral font-semibold" : "text-[#6B6B6B] hover:bg-[#FAFAF8]"}`}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full transition-colors ${selectedProductLine === line ? "bg-coral" : "bg-[#E5E5E0]"}`} />
+                      {line}
+                    </button>
                   ))}
                 </div>
 
-                {(selectedCategory !== "All" || selectedProductLine !== "All") && (
+                {activeFiltersCount > 0 && (
                   <button onClick={() => { setSelectedCategory("All"); setSelectedProductLine("All") }}
-                    className="mt-6 w-full text-center text-sm text-coral font-semibold hover:underline">Clear All</button>
+                    className="mt-6 w-full flex items-center justify-center gap-2 text-sm text-coral font-semibold py-2.5 rounded-xl border border-coral/20 hover:bg-coral-subtle/30 transition-colors"
+                  >
+                    <X className="w-3.5 h-3.5" /> Clear All Filters
+                  </button>
                 )}
               </div>
             </aside>
 
             {/* Grid */}
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0"
+            >
               {viewMode === "grid" ? (
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
+                >
                   {paginatedProducts.map(product => (
                     <Link key={product.slug} href={`/products/${product.slug}`}
-                      className="group bg-[#FAFAF8] rounded-2xl overflow-hidden border border-[#E5E5E0] hover:border-coral/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-card-hover">
-                      <div className="relative aspect-[3/4] bg-gradient-to-b from-[#F5F5F0] to-[#FAFAF8] p-6 flex items-center justify-center overflow-hidden">
-                        <span className={`absolute top-3 left-3 ${product.badgeColor} text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg z-10`}>
+                      className="group relative bg-[#FAFAF8] rounded-2xl overflow-hidden border border-[#E5E5E0] hover:border-coral/20 transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover"
+                    >
+                      <div className="absolute top-0 left-5 right-5 h-[2px] bg-coral rounded-full opacity-0 group-hover:opacity-100 group-hover:left-3 group-hover:right-3 transition-all duration-500"
+                      />
+                      <div className="relative aspect-[3/4] bg-gradient-to-b from-[#F5F5F0] to-[#FAFAF8] p-6 flex items-center justify-center overflow-hidden"
+                      >
+                        <span className={`absolute top-3 left-3 ${product.badgeColor} text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg z-10`}
+                        >
                           {product.badge}
                         </span>
-                        <img src={product.image} alt={product.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700" />
+                        <img src={product.image} alt={product.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out" />
                       </div>
-                      <div className="p-5">
-                        <h3 className="font-semibold text-navy text-sm mb-1 group-hover:text-coral transition-colors line-clamp-1">{product.name}</h3>
-                        <p className="text-xs text-[#9CA3AF]">{product.formula}</p>
+                      <div className="p-5"
+                      >
+                        <h3 className="font-semibold text-navy text-sm mb-1 group-hover:text-coral transition-colors line-clamp-1"
+                        >{product.name}</h3>
+                        <p className="text-xs text-[#9CA3AF] mb-3"
+                        >{product.formula}</p>
+                        <div className="flex flex-wrap gap-1.5"
+                        >
+                          {Object.entries(product.nutrients).slice(0, 3).map(([key, val]) => (
+                            <span key={key} className="bg-white border border-[#E5E5E0] text-[#6B6B6B] text-[10px] px-2 py-0.5 rounded-full font-medium"
+                            >
+                              {key}: {val}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </Link>
                   ))}
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3"
+                >
                   {paginatedProducts.map(product => (
                     <Link key={product.slug} href={`/products/${product.slug}`}
-                      className="group flex gap-5 bg-[#FAFAF8] rounded-2xl p-4 border border-[#E5E5E0] hover:border-coral/30 transition-all">
-                      <div className="w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-b from-[#F5F5F0] to-[#FAFAF8] rounded-xl flex items-center justify-center shrink-0 p-3">
-                        <img src={product.image} alt={product.name} className="w-full h-full object-contain" />
+                      className="group flex gap-5 bg-[#FAFAF8] rounded-2xl p-4 border border-[#E5E5E0] hover:border-coral/30 transition-all hover:-translate-y-0.5 hover:shadow-card"
+                    >
+                      <div className="w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-b from-[#F5F5F0] to-[#FAFAF8] rounded-xl flex items-center justify-center shrink-0 p-3"
+                      >
+                        <img src={product.image} alt={product.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform" />
                       </div>
-                      <div className="flex-1 min-w-0 py-1">
-                        <span className={`inline-block ${product.badgeColor} text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-lg mb-2`}>{product.badge}</span>
-                        <h3 className="font-semibold text-navy group-hover:text-coral transition-colors mb-1">{product.name}</h3>
-                        <p className="text-sm text-[#9CA3AF] mb-1">{product.formula}</p>
-                        <p className="text-xs text-[#9CA3AF]/70 line-clamp-2">{product.shortDescription}</p>
+                      <div className="flex-1 min-w-0 py-1"
+                      >
+                        <span className={`inline-block ${product.badgeColor} text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-lg mb-2`}
+                        >{product.badge}</span>
+                        <h3 className="font-semibold text-navy group-hover:text-coral transition-colors mb-1"
+                        >{product.name}</h3>
+                        <p className="text-sm text-[#9CA3AF] mb-1"
+                        >{product.formula}</p>
+                        <p className="text-xs text-[#9CA3AF]/70 line-clamp-2 mb-3"
+                        >{product.shortDescription}</p>
+                        <div className="flex items-center gap-2 text-[12px] font-semibold text-navy/40 group-hover:text-coral transition-colors"
+                        >
+                          <span>View Details</span>
+                          <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                        </div>
                       </div>
                     </Link>
                   ))}
@@ -155,22 +270,29 @@ export default function Products() {
               )}
 
               {totalPages > 1 && (
-                <div className="flex items-center justify-center gap-2 mt-10">
+                <div className="flex items-center justify-center gap-2 mt-10"
+                >
                   <button onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1}
-                    className="px-4 py-2.5 bg-white border border-[#E5E5E0] rounded-xl text-sm font-medium text-navy/60 disabled:opacity-30 hover:text-navy transition-colors">&larr;</button>
+                    className="px-4 py-2.5 bg-white border border-[#E5E5E0] rounded-xl text-sm font-medium text-navy/60 disabled:opacity-30 hover:text-navy transition-colors"
+                  >&larr;</button>
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
                     <button key={p} onClick={() => setPage(p)}
-                      className={`w-10 h-10 rounded-xl text-sm font-medium transition-colors ${page === p ? "bg-coral text-white" : "bg-white border border-[#E5E5E0] text-navy/50 hover:text-navy"}`}>{p}</button>
+                      className={`w-10 h-10 rounded-xl text-sm font-medium transition-colors ${page === p ? "bg-navy text-white" : "bg-white border border-[#E5E5E0] text-navy/50 hover:text-navy"}`}
+                    >{p}</button>
                   ))}
                   <button onClick={() => setPage(Math.min(totalPages, page + 1))} disabled={page === totalPages}
-                    className="px-4 py-2.5 bg-white border border-[#E5E5E0] rounded-xl text-sm font-medium text-navy/60 disabled:opacity-30 hover:text-navy transition-colors">&rarr;</button>
+                    className="px-4 py-2.5 bg-white border border-[#E5E5E0] rounded-xl text-sm font-medium text-navy/60 disabled:opacity-30 hover:text-navy transition-colors"
+                  >&rarr;</button>
                 </div>
               )}
 
               {filteredProducts.length === 0 && (
-                <div className="text-center py-16">
-                  <p className="text-lg text-[#9CA3AF] mb-4">No products match your filters.</p>
-                  <button onClick={() => { setSelectedCategory("All"); setSelectedProductLine("All") }} className="text-coral font-semibold hover:underline">Clear All Filters</button>
+                <div className="text-center py-20"
+                >
+                  <p className="text-lg text-[#9CA3AF] mb-4"
+                  >No products match your filters.</p>
+                  <button onClick={() => { setSelectedCategory("All"); setSelectedProductLine("All") }} className="text-coral font-semibold hover:underline"
+                  >Clear All Filters</button>
                 </div>
               )}
             </div>
