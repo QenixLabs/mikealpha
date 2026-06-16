@@ -364,7 +364,7 @@ export default function Home() {
                     {product.badge}
                   </span>
                   <img src={product.image} alt={product.name}
-                    className={`w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out ${i === 0 ? 'max-w-[220px]' : 'max-w-[150px]'}`} />
+                    className={`w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out mix-blend-multiply ${i === 0 ? 'max-w-[220px]' : 'max-w-[150px]'}`} />
                 </div>
                 <div className="p-5">
                   <h3 className={`font-semibold text-navy mb-1 group-hover:text-coral transition-colors line-clamp-1 ${i === 0 ? 'text-base' : 'text-sm'}`}>

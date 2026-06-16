@@ -50,7 +50,7 @@ export default function ProductDetail() {
             >
               <div className="aspect-[3/4] bg-gradient-to-b from-[#F5F5F0] to-[#FAFAF8] rounded-3xl p-8 lg:p-12 flex items-center justify-center overflow-hidden border border-[#E5E5E0] group"
               >
-                <img src={product.image} alt={product.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700 ease-out" />
+                <img src={product.image} alt={product.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700 ease-out mix-blend-multiply" />
               </div>
             </div>
 

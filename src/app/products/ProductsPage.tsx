@@ -216,7 +216,7 @@ export default function Products() {
                         >
                           {product.badge}
                         </span>
-                        <img src={product.image} alt={product.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out" />
+                        <img src={product.image} alt={product.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out mix-blend-multiply" />
                       </div>
                       <div className="p-5"
                       >
@@ -246,7 +246,7 @@ export default function Products() {
                     >
                       <div className="w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-b from-[#F5F5F0] to-[#FAFAF8] rounded-xl flex items-center justify-center shrink-0 p-3"
                       >
-                        <img src={product.image} alt={product.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform" />
+                        <img src={product.image} alt={product.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform mix-blend-multiply" />
                       </div>
                       <div className="flex-1 min-w-0 py-1"
                       >
