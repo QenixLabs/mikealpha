@@ -53,11 +53,64 @@ export default function Products() {
 
   const activeFiltersCount = (selectedCategory !== "All" ? 1 : 0) + (selectedProductLine !== "All" ? 1 : 0)
 
+  const featuredProducts = [
+    products.find(p => p.slug === "19-19-19")!,
+    products.find(p => p.slug === "bvm")!,
+    products.find(p => p.slug === "00-52-34")!,
+    products.find(p => p.slug === "blackpot")!,
+  ].filter(Boolean)
+
   return (
     <div className="bg-white min-h-screen"
     >
       <PageBanner title="Our Products" backgroundImage="/products-banner.jpg"
         breadcrumbs={[{ label: "Home", path: "/" }, { label: "Products" }]} />
+
+      {/* Featured Products */}
+      <section className="py-24 lg:py-32 bg-[#FAFAF8]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center gap-4 mb-5">
+              <div className="w-8 h-[2px] bg-coral" />
+              <p className="text-[11px] font-semibold uppercase tracking-[4px] text-coral">Our Products</p>
+              <div className="w-8 h-[2px] bg-coral" />
+            </div>
+            <h2 className="text-section font-bold text-navy font-heading leading-[1.1]">Popular formulations</h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featuredProducts.map((product) => (
+              <Link
+                key={product.slug}
+                href={`/products/${product.slug}`}
+                className="group bg-white rounded-2xl border border-[#E5E5E0] p-6 flex flex-col transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover"
+              >
+                <h3 className="text-card-title font-bold text-navy font-heading mb-3 group-hover:text-coral transition-colors">
+                  {product.name}
+                </h3>
+                <ul className="space-y-1.5 mb-6">
+                  {product.benefits.slice(0, 3).map((benefit, i) => (
+                    <li key={i} className="flex items-start gap-2 text-[13px] text-[#6B6B6B] leading-[1.6]">
+                      <span className="w-1.5 h-1.5 bg-coral rotate-45 shrink-0 mt-1.5" />
+                      <span className="line-clamp-2">{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="relative bg-[#FAFAF8] rounded-xl p-6 flex items-center justify-center flex-1 mb-6 overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-contain max-h-[160px] group-hover:scale-105 transition-transform duration-500 mix-blend-multiply"
+                  />
+                </div>
+                <span className="text-coral text-sm font-semibold underline decoration-1 underline-offset-4 mt-auto">
+                  Read more
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Category pills */}
       <section className="border-b border-[#E5E5E0]"
@@ -140,7 +193,7 @@ export default function Products() {
             {/* Sidebar */}
             <aside className={`${mobileFiltersOpen ? "block" : "hidden"} lg:block w-full lg:w-64 shrink-0`}
             >
-              <div className="bg-white border border-[#E5E5E0] rounded-2xl p-6 lg:sticky lg:top-24"
+              <div className="bg-white border border-[#E5E5E0] rounded-2xl p-6 lg:sticky lg:top-24 shadow-card"
               >
                 <div className="flex items-center justify-between mb-5"
                 >
@@ -206,7 +259,7 @@ export default function Products() {
                 >
                   {paginatedProducts.map(product => (
                     <Link key={product.slug} href={`/products/${product.slug}`}
-                      className="group relative bg-[#FAFAF8] rounded-2xl overflow-hidden border border-[#E5E5E0] hover:border-coral/20 transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover"
+                      className="group relative bg-white rounded-2xl overflow-hidden border border-[#E5E5E0] hover:border-coral/20 transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover"
                     >
                       <div className="absolute top-0 left-5 right-5 h-[2px] bg-coral rounded-full opacity-0 group-hover:opacity-100 group-hover:left-3 group-hover:right-3 transition-all duration-500"
                       />
@@ -227,7 +280,7 @@ export default function Products() {
                         <div className="flex flex-wrap gap-1.5"
                         >
                           {Object.entries(product.nutrients).slice(0, 3).map(([key, val]) => (
-                            <span key={key} className="bg-white border border-[#E5E5E0] text-[#6B6B6B] text-[10px] px-2 py-0.5 rounded-full font-medium"
+                            <span key={key} className="bg-[#FAFAF8] border border-[#E5E5E0] text-[#6B6B6B] text-[10px] px-2 py-0.5 rounded-full font-medium"
                             >
                               {key}: {val}
                             </span>
@@ -242,7 +295,7 @@ export default function Products() {
                 >
                   {paginatedProducts.map(product => (
                     <Link key={product.slug} href={`/products/${product.slug}`}
-                      className="group flex gap-5 bg-[#FAFAF8] rounded-2xl p-4 border border-[#E5E5E0] hover:border-coral/30 transition-all hover:-translate-y-0.5 hover:shadow-card"
+                      className="group flex gap-5 bg-white rounded-2xl p-4 border border-[#E5E5E0] hover:border-coral/30 transition-all hover:-translate-y-0.5 hover:shadow-card"
                     >
                       <div className="w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-b from-[#F5F5F0] to-[#FAFAF8] rounded-xl flex items-center justify-center shrink-0 p-3"
                       >

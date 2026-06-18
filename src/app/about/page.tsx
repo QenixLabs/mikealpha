@@ -74,7 +74,7 @@ export default function About() {
                   <span key={t} className="px-4 py-2 border border-navy/15 text-navy/70 text-sm font-medium rounded-xl">{t}</span>
                 ))}
               </div>
-              <div className="anim flex items-start gap-4 p-5 bg-white rounded-2xl shadow-card mb-6 border border-[#E5E5E0]/60">
+              <div className="anim flex items-start gap-4 p-5 bg-white rounded-2xl border border-[#E5E5E0] shadow-card mb-6">
                 <div className="w-10 h-10 bg-coral-subtle rounded-xl flex items-center justify-center shrink-0">
                   <Check className="w-5 h-5 text-coral" />
                 </div>
@@ -97,7 +97,7 @@ export default function About() {
             </div>
             <div className="lg:col-span-6">
               <div className="anim relative pl-6 pb-6">
-                <div className="absolute top-6 -left-0 bottom-0 right-6 border-2 border-coral/20 rounded-3xl" />
+                <div className="absolute top-6 left-0 bottom-0 right-6 border-2 border-coral/20 rounded-3xl" />
                 <div className="relative z-10 rounded-3xl overflow-hidden shadow-float">
                   <img src="/about-v2.jpg" alt="" className="w-full object-cover aspect-[4/5]" />
                 </div>
@@ -113,7 +113,7 @@ export default function About() {
               { v: 4, s: "", l: "Product Lines" },
               { v: 7, s: "", l: "Categories" }
             ].map(s => (
-              <div key={s.l} className="text-center p-6 lg:p-8 bg-white rounded-2xl border border-[#E5E5E0]/60">
+              <div key={s.l} className="text-center p-6 lg:p-8 bg-white rounded-2xl border border-[#E5E5E0]">
                 <p className="text-3xl lg:text-4xl font-bold text-coral font-heading"><Counter target={s.v} suffix={s.s} /></p>
                 <p className="text-[11px] text-[#9CA3AF] uppercase tracking-[2px] mt-2">{s.l}</p>
               </div>
