@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import {
-  ArrowRight, ChevronLeft, ChevronRight, Leaf, Shield, CloudRain, Microscope, Box, Sprout, FlaskConical, Droplets, SprayCan, Beaker, Settings2, Sun, Shovel, User, Play, Quote
+  ArrowRight, Leaf, Shield, CloudRain, Microscope, Box, Sprout, FlaskConical, Droplets, SprayCan, Beaker, Settings2, Sun, Shovel, User, Play, Quote
 } from "lucide-react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -15,7 +15,6 @@ type InterestTab = "products" | "application" | "lines"
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null)
-  const interestScrollRef = useRef<HTMLDivElement>(null)
   const featuredRef = useRef<HTMLElement>(null)
   const promotedRef = useRef<HTMLElement>(null)
   const blogRef = useRef<HTMLElement>(null)
@@ -195,15 +194,6 @@ export default function Home() {
     { key: "lines", label: "Product Lines" },
   ]
 
-  const scrollInterest = (dir: "left" | "right") => {
-    const el = interestScrollRef.current
-    if (!el) return
-    const card = el.querySelector("[data-interest-card]") as HTMLElement | null
-    const gap = 12
-    const step = (card?.offsetWidth || 140) + gap
-    el.scrollTo({ left: el.scrollLeft + (dir === "left" ? -step : step), behavior: "smooth" })
-  }
-
   return (
     <div className="bg-[#FAFAF8]">
       {/* ==================== HERO ==================== */}
@@ -256,7 +246,7 @@ export default function Home() {
 
         {/* Choose your interest panel */}
         <div className="relative z-10 w-full">
-          <div className="w-full pb-6">
+          <div className="w-full">
             <div className="bg-transparent">
               {/* Header */}
               <div className="px-6 pt-5 pb-3 border-b border-white/20">
@@ -278,79 +268,59 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Scroll area */}
-              <div className="relative group bg-white/95 backdrop-blur-xl">
-                <button
-                  onClick={() => scrollInterest("left")}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white shadow-lg border border-[#E5E5E0] flex items-center justify-center text-navy hover:bg-coral hover:text-white hover:border-coral transition-[color,background-color,border-color] opacity-0 group-hover:opacity-100 focus:opacity-100"
-                  aria-label="Scroll left"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => scrollInterest("right")}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white shadow-lg border border-[#E5E5E0] flex items-center justify-center text-navy hover:bg-coral hover:text-white hover:border-coral transition-[color,background-color,border-color] opacity-0 group-hover:opacity-100 focus:opacity-100"
-                  aria-label="Scroll right"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-                <div
-                  ref={interestScrollRef}
-                  className="overflow-x-auto scroll-smooth no-scrollbar"
-                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                >
-                  <div className="flex gap-3 justify-center px-6 py-5 min-w-min">
-                    {activeTab === "products" && productCategories.map((cat) => (
-                      <Link
-                        key={cat.name}
-                        href={`/products?category=${encodeURIComponent(cat.name)}`}
-                        data-interest-card
-                        className="interest-card flex-shrink-0 w-[140px] sm:w-[160px] group bg-[#FAFAF8] hover:bg-white rounded-2xl border border-[#E5E5E0] p-5 flex flex-col items-center text-center transition-[transform,box-shadow,background-color] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover"
-                      >
-                        <div className="w-12 h-12 rounded-xl bg-coral-subtle text-coral flex items-center justify-center mb-3 transition-colors group-hover:bg-coral group-hover:text-white">
-                          {cat.icon}
-                        </div>
-                        <span className="text-sm font-semibold text-navy leading-tight">{cat.name}</span>
-                      </Link>
-                    ))}
+              {/* Cards grid */}
+              <div className="bg-white/95 backdrop-blur-xl px-4 sm:px-6 py-5">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-7xl mx-auto">
+                  {activeTab === "products" && productCategories.map((cat) => (
+                    <Link
+                      key={cat.name}
+                      href={`/products?category=${encodeURIComponent(cat.name)}`}
+                      data-interest-card
+                      className="interest-card group bg-[#FAFAF8] hover:bg-white rounded-2xl border border-[#E5E5E0] p-4 sm:p-5 flex flex-col items-center text-center transition-[transform,box-shadow,background-color] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover h-full"
+                    >
+                      <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-coral-subtle text-coral flex items-center justify-center mb-3 transition-colors group-hover:bg-coral group-hover:text-white">
+                        {cat.icon}
+                      </div>
+                      <span className="text-sm font-semibold text-navy leading-tight">{cat.name}</span>
+                    </Link>
+                  ))}
 
-                    {activeTab === "application" && applicationMethods.map((method) => (
-                      <Link
-                        key={method.name}
-                        href={`/products?application=${encodeURIComponent(method.name)}`}
-                        data-interest-card
-                        className="interest-card flex-shrink-0 w-[160px] sm:w-[180px] group bg-[#FAFAF8] hover:bg-white rounded-2xl border border-[#E5E5E0] p-5 flex flex-col items-center text-center transition-[transform,box-shadow,background-color] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover"
-                      >
-                        <div className="w-12 h-12 rounded-xl bg-coral-subtle text-coral flex items-center justify-center mb-3 transition-colors group-hover:bg-coral group-hover:text-white">
-                          {method.icon}
-                        </div>
-                        <span className="text-sm font-semibold text-navy leading-tight mb-1">{method.name}</span>
-                        <span className="text-xs text-[#9CA3AF] leading-[1.5]">{method.desc}</span>
-                      </Link>
-                    ))}
+                  {activeTab === "application" && applicationMethods.map((method) => (
+                    <Link
+                      key={method.name}
+                      href={`/products?application=${encodeURIComponent(method.name)}`}
+                      data-interest-card
+                      className="interest-card group bg-[#FAFAF8] hover:bg-white rounded-2xl border border-[#E5E5E0] p-4 sm:p-5 flex flex-col items-center text-center transition-[transform,box-shadow,background-color] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover h-full"
+                    >
+                      <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-coral-subtle text-coral flex items-center justify-center mb-3 transition-colors group-hover:bg-coral group-hover:text-white">
+                        {method.icon}
+                      </div>
+                      <span className="text-sm font-semibold text-navy leading-tight mb-1">{method.name}</span>
+                      <span className="text-xs text-[#9CA3AF] leading-[1.5]">{method.desc}</span>
+                    </Link>
+                  ))}
 
-                    {activeTab === "lines" && productLineCards.map((card) => (
-                      <Link
-                        key={card.title}
-                        href={card.link}
-                        data-interest-card
-                        className="interest-card flex-shrink-0 w-[200px] sm:w-[220px] group bg-[#FAFAF8] hover:bg-white rounded-2xl border border-[#E5E5E0] p-5 flex flex-col transition-[transform,box-shadow,background-color] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover overflow-hidden"
-                      >
-                        <div className="flex items-center justify-between mb-3">
-                          <div
-                            className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-300"
-                            style={{ backgroundColor: card.accent + "10", color: card.accent }}
-                          >
-                            {card.icon}
-                          </div>
-                          <span className="text-[10px] font-semibold text-[#9CA3AF] uppercase tracking-[2px]">{card.products}</span>
+                  {activeTab === "lines" && productLineCards.map((card) => (
+                    <Link
+                      key={card.title}
+                      href={card.link}
+                      data-interest-card
+                      className="interest-card group bg-[#FAFAF8] hover:bg-white rounded-2xl border border-[#E5E5E0] p-4 sm:p-5 flex flex-col transition-[transform,box-shadow,background-color] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover h-full overflow-hidden"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <div
+                          className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-300"
+                          style={{ backgroundColor: card.accent + "10", color: card.accent }}
+                        >
+                          {card.icon}
                         </div>
-                        <h3 className="text-base font-bold text-navy font-heading mb-1">{card.title}</h3>
-                        <p className="text-[12px] font-medium mb-1" style={{ color: card.accent }}>{card.subtitle}</p>
-                        <p className="text-xs text-[#6B6B6B] leading-[1.6] flex-1">{card.desc}</p>
-                      </Link>
-                    ))}
-                  </div>
+                        <span className="text-[10px] font-semibold text-[#9CA3AF] uppercase tracking-[2px]">{card.products}</span>
+                      </div>
+                      <h3 className="text-base font-bold text-navy font-heading mb-1">{card.title}</h3>
+                      <p className="text-[12px] font-medium mb-1" style={{ color: card.accent }}>{card.subtitle}</p>
+                      <p className="text-xs text-[#6B6B6B] leading-[1.6] flex-1">{card.desc}</p>
+                    </Link>
+                  ))}
                 </div>
               </div>
             </div>
@@ -538,7 +508,7 @@ export default function Home() {
                   aria-hidden="true"
                   className="absolute bottom-5 right-5 w-9 h-9 rounded-full border border-[#E5E5E0] bg-white text-navy flex items-center justify-center transition-[color,background-color,border-color] duration-300 ease-smooth group-hover:bg-coral group-hover:border-coral group-hover:text-white"
                 >
-                  <ChevronRight className="w-5 h-5" />
+                  <ArrowRight className="w-5 h-5" />
                 </div>
               </Link>
             ))}
