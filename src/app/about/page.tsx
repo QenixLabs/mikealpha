@@ -74,7 +74,7 @@ export default function About() {
                   <span key={t} className="px-4 py-2 border border-navy/15 text-navy/70 text-sm font-medium rounded-xl">{t}</span>
                 ))}
               </div>
-              <div className="anim flex items-start gap-4 p-5 bg-white rounded-2xl shadow-card mb-6 border border-[#E5E5E0]/60">
+              <div className="anim flex items-start gap-4 p-5 bg-white rounded-2xl border border-[#E5E5E0] shadow-card mb-6">
                 <div className="w-10 h-10 bg-coral-subtle rounded-xl flex items-center justify-center shrink-0">
                   <Check className="w-5 h-5 text-coral" />
                 </div>
@@ -87,17 +87,17 @@ export default function About() {
                 Mike Alpha Agro is an exclusive importer and manufacturer of advanced agricultural solutions based in Gujarat, India. We bring together cutting-edge nutritional technologies with a deep understanding of Indian farming conditions.
               </p>
               <div className="anim flex flex-wrap gap-3">
-                <Link href="/products" className="group bg-coral hover:bg-coral-dark text-white font-semibold px-7 py-3.5 rounded-xl transition-all text-sm flex items-center gap-2">
+                <Link href="/products" className="group bg-coral hover:bg-coral-dark text-white font-semibold px-7 py-3.5 rounded-xl transition-[color,background-color] text-sm flex items-center gap-2">
                   View Products <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                 </Link>
-                <Link href="/contact" className="border border-[#E5E5E0] hover:border-navy/30 text-navy/70 hover:text-navy font-semibold px-7 py-3.5 rounded-xl transition-all text-sm hover:bg-white">
+                <Link href="/contact" className="border border-[#E5E5E0] hover:border-navy/30 text-navy/70 hover:text-navy font-semibold px-7 py-3.5 rounded-xl transition-[color,background-color,border-color] text-sm hover:bg-white">
                   Contact Us
                 </Link>
               </div>
             </div>
             <div className="lg:col-span-6">
               <div className="anim relative pl-6 pb-6">
-                <div className="absolute top-6 -left-0 bottom-0 right-6 border-2 border-coral/20 rounded-3xl" />
+                <div className="absolute top-6 left-0 bottom-0 right-6 border-2 border-coral/20 rounded-3xl" />
                 <div className="relative z-10 rounded-3xl overflow-hidden shadow-float">
                   <img src="/about-v2.jpg" alt="" className="w-full object-cover aspect-[4/5]" />
                 </div>
@@ -113,7 +113,7 @@ export default function About() {
               { v: 4, s: "", l: "Product Lines" },
               { v: 7, s: "", l: "Categories" }
             ].map(s => (
-              <div key={s.l} className="text-center p-6 lg:p-8 bg-white rounded-2xl border border-[#E5E5E0]/60">
+              <div key={s.l} className="text-center p-6 lg:p-8 bg-white rounded-2xl border border-[#E5E5E0]">
                 <p className="text-3xl lg:text-4xl font-bold text-coral font-heading"><Counter target={s.v} suffix={s.s} /></p>
                 <p className="text-[11px] text-[#9CA3AF] uppercase tracking-[2px] mt-2">{s.l}</p>
               </div>
@@ -138,14 +138,14 @@ export default function About() {
             </div>
           </div>
           <div className="grid md:grid-cols-2 gap-5">
-            <div className="m-anim bg-white/[0.03] border border-white/[0.08] rounded-2xl p-8 lg:p-10 hover:bg-white/[0.06] hover:border-white/[0.12] transition-all duration-300">
+            <div className="m-anim bg-white/[0.03] border border-white/[0.08] rounded-2xl p-8 lg:p-10 hover:bg-white/[0.06] hover:border-white/[0.12] transition-[background-color,border-color] duration-300 ease-smooth">
               <Target className="w-7 h-7 text-coral mb-5" />
               <h3 className="text-xl font-bold text-white font-heading mb-4">Our Mission</h3>
               <p className="text-white/45 leading-[1.8] text-[15px]">
                 To empower Indian farmers with science-driven crop nutrition solutions that enhance productivity, protect the environment, and improve livelihoods — one harvest at a time. We believe better agriculture creates a better future.
               </p>
             </div>
-            <div className="m-anim bg-white/[0.03] border border-white/[0.08] rounded-2xl p-8 lg:p-10 hover:bg-white/[0.06] hover:border-white/[0.12] transition-all duration-300">
+            <div className="m-anim bg-white/[0.03] border border-white/[0.08] rounded-2xl p-8 lg:p-10 hover:bg-white/[0.06] hover:border-white/[0.12] transition-[background-color,border-color] duration-300 ease-smooth">
               <Eye className="w-7 h-7 text-coral mb-5" />
               <h3 className="text-xl font-bold text-white font-heading mb-4">Our Vision</h3>
               <p className="text-white/45 leading-[1.8] text-[15px]">
