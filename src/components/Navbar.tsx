@@ -65,7 +65,7 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out bg-white border-b border-[#E5E5E0]/60 ${scrolled || !heroVisible ? "shadow-[0_1px_3px_rgba(0,0,0,0.04)]" : ""}`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-[height,box-shadow] duration-500 ease-smooth bg-white border-b border-[#E5E5E0]/60 ${scrolled || !heroVisible ? "shadow-[0_1px_3px_rgba(0,0,0,0.04)]" : ""}`}
         style={{ height: heroVisible ? 80 : 64 }}
       >
         <div className="max-w-7xl mx-auto px-5 h-full">
@@ -75,7 +75,7 @@ export default function Navbar() {
               <img
                 src="/logo.png"
                 alt="Mike Alpha Agro"
-                className="h-20 w-auto object-contain transition-all duration-500"
+                className="h-20 w-auto object-contain"
               />
             </Link>
 
@@ -108,7 +108,7 @@ export default function Navbar() {
                             <Link
                               key={child.path}
                               href={child.path}
-                              className="flex items-start gap-4 px-4 py-3 rounded-xl text-sm text-[#1A1A1A]/70 hover:text-coral hover:bg-coral-subtle/40 transition-all group"
+                              className="flex items-start gap-4 px-4 py-3 rounded-xl text-sm text-[#1A1A1A]/70 hover:text-coral hover:bg-coral-subtle/40 transition-[color,background-color] duration-200 ease-smooth group"
                             >
                               <span className="w-10 h-10 rounded-lg bg-[#F5F5F0] group-hover:bg-coral-subtle flex items-center justify-center shrink-0 text-[#1A1A1A]/50 group-hover:text-coral transition-colors">
                                 {child.icon}
@@ -146,7 +146,7 @@ export default function Navbar() {
                     {link.label}
                     {/* Animated underline */}
                     <span
-                      className={`absolute bottom-0 left-4 right-4 h-[2px] rounded-full transition-all duration-300 ease-out ${
+                      className={`absolute bottom-0 left-4 right-4 h-[2px] rounded-full transition-[transform,opacity] duration-300 ease-smooth ${
                         pathname === link.path
                           ? "opacity-100 scale-x-100"
                           : "opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100"
@@ -161,7 +161,7 @@ export default function Navbar() {
             <div className="hidden lg:flex items-center gap-4">
               <Link
                 href="/contact"
-                className="text-[13px] font-semibold px-5 py-2.5 rounded-xl transition-all duration-300 bg-coral hover:bg-coral-dark text-white"
+                className="text-[13px] font-semibold px-5 py-2.5 rounded-xl transition-[color,background-color] duration-200 ease-smooth bg-coral hover:bg-coral-dark text-white"
               >
                 Get In Touch
               </Link>

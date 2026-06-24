@@ -19,6 +19,12 @@
     --text-muted: #9CA3AF;
     --border: #E5E5E0;
     --border-light: #F0EFEA;
+
+    /* Custom easing curves */
+    --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-snappy: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-expo: cubic-bezier(0.7, 0, 0.84, 0);
   }
 
   html { scroll-behavior: smooth; }
@@ -103,6 +109,58 @@
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--navy); border-radius: 3px; }
 
+/* Press-scale for interactive feedback */
+.press-scale {
+  transition: transform 100ms var(--ease-snappy);
+}
+.press-scale:active {
+  transform: scale(0.97);
+}
+
+/* will-change hints for GPU-accelerated elements */
+.will-transform {
+  will-change: transform;
+}
+.will-opacity {
+  will-change: opacity;
+}
+.will-shadow {
+  will-change: box-shadow;
+}
+
+/* Hover-capable devices only — prevents sticky hover on touch */
+@media (hover: hover) and (pointer: fine) {
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(25,32,74,0.08);
+  }
+}
+
+/* Touch devices — remove hover lifts, use active state instead */
+@media (hover: none) {
+  .hover-lift:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .hero-img {
+    transform: none !important;
+  }
+  [data-reduce-motion] .gsap-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* Animations */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(30px); }
@@ -128,16 +186,12 @@
 .mega-enter-active {
   opacity: 1;
   transform: translateY(0) scale(1);
-  transition: opacity 200ms ease, transform 200ms ease;
+  transition: opacity 200ms var(--ease-out-expo), transform 200ms var(--ease-smooth);
 }
 
 /* Subtle hover lift */
 .hover-lift {
-  transition: transform 200ms ease, box-shadow 200ms ease;
-}
-.hover-lift:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(25,32,74,0.08);
+  transition: transform 200ms var(--ease-smooth), box-shadow 200ms var(--ease-smooth);
 }
 .line-clamp-2 {
   display: -webkit-box;

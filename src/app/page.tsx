@@ -24,47 +24,69 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<InterestTab>("products")
 
   useEffect(() => {
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    const EASE_OUT = "cubic-bezier(0.33, 1, 0.68, 1)"
+    const EASE_IN = "cubic-bezier(0.32, 0, 0.67, 0)"
+    const EASE_IN_OUT = "cubic-bezier(0.65, 0, 0.35, 1)"
+
     const ctx = gsap.context(() => {
       // Hero cinematic entrance
       const heroTl = gsap.timeline({ delay: 0.2 })
-      heroTl.to(".hero-img", { scale: 1, duration: 2.8, ease: "power2.out" })
-            .fromTo(".hero-el", { y: 55, opacity: 0 },
-              { y: 0, opacity: 1, duration: 1, stagger: 0.12, ease: "power3.out" },
-              "-=2.2"
-            )
-            .fromTo(".interest-card", { y: 30, opacity: 0 },
-              { y: 0, opacity: 1, duration: 0.6, stagger: 0.05, ease: "power2.out" },
-              "-=1.2"
-            )
+      heroTl
+        .fromTo(".hero-img", { clipPath: "inset(0 100% 0 0)" },
+          { clipPath: "inset(0 0% 0 0)", scale: 1, duration: 2.8, ease: EASE_OUT }
+        )
+        .fromTo(".hero-el", { y: 55, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1, stagger: 0.12, ease: EASE_IN_OUT },
+          "-=2.2"
+        )
+        .fromTo(".interest-card", { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, stagger: 0.05, ease: EASE_IN_OUT },
+          "-=1.2"
+        )
       // Hero scroll parallax
       gsap.to(".hero-img", { yPercent: 12, ease: "none",
         scrollTrigger: { trigger: heroRef.current, start: "top top", end: "bottom top", scrub: true }
       })
+      // Section title clip-path reveals
+      const sectionTitles = ["OUR PRODUCTS", "HAIFA BLOG", "SUCCESS STORIES"].map(text => {
+        return Array.from(document.querySelectorAll("h2")).find(h => h.textContent?.trim() === text)
+      }).filter(Boolean)
+      sectionTitles.forEach((title) => {
+        if (!title) return
+        gsap.fromTo(title,
+          { clipPath: "inset(0 100% 0 0)" },
+          { clipPath: "inset(0 0% 0 0)", duration: 1.2, ease: EASE_OUT,
+            scrollTrigger: { trigger: title, start: "top 75%", once: true }
+          }
+        )
+      })
       // Featured
       if (featuredRef.current) {
         gsap.fromTo(featuredRef.current.querySelectorAll(".feat-card"), { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: "power2.out",
+          { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: EASE_IN_OUT,
             scrollTrigger: { trigger: featuredRef.current, start: "top 80%", once: true } }
         )
       }
       // Promoted
       if (promotedRef.current) {
         gsap.fromTo(promotedRef.current.querySelectorAll(".promo-card"), { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out",
+          { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: EASE_IN_OUT,
             scrollTrigger: { trigger: promotedRef.current, start: "top 80%", once: true } }
         )
       }
       // Blog
       if (blogRef.current) {
         gsap.fromTo(blogRef.current.querySelectorAll(".blog-card"), { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out",
+          { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: EASE_IN_OUT,
             scrollTrigger: { trigger: blogRef.current, start: "top 80%", once: true } }
         )
       }
       // Success stories
       if (successRef.current) {
         gsap.fromTo(successRef.current.querySelectorAll(".success-anim"), { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.7, stagger: 0.12, ease: "power3.out",
+          { y: 0, opacity: 1, duration: 0.7, stagger: 0.12, ease: EASE_IN_OUT,
             scrollTrigger: { trigger: successRef.current, start: "top 80%", once: true } }
         )
       }
@@ -221,11 +243,11 @@ export default function Home() {
               46 specialized formulations engineered through science. Trusted by farmers across India for stronger yields and healthier crops.
             </p>
             <div className="hero-el flex flex-wrap gap-3">
-              <Link href="/products" className="group bg-coral hover:bg-coral-dark text-white font-semibold px-7 py-3.5 rounded-xl transition-all flex items-center gap-2.5 text-sm">
+              <Link href="/products" className="group bg-coral hover:bg-coral-dark text-white font-semibold px-7 py-3.5 rounded-xl transition-[color,background-color] flex items-center gap-2.5 text-sm">
                 Explore Products
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
-              <Link href="/contact" className="border border-white/15 hover:border-white/30 text-white/60 hover:text-white font-medium px-7 py-3.5 rounded-xl transition-all text-sm hover:bg-white/[0.04]">
+              <Link href="/contact" className="border border-white/15 hover:border-white/30 text-white/60 hover:text-white font-medium px-7 py-3.5 rounded-xl transition-[color,background-color,border-color] text-sm hover:bg-white/[0.04]">
                 Contact Team
               </Link>
             </div>
@@ -246,7 +268,7 @@ export default function Home() {
                     <button
                       key={tab.key}
                       onClick={() => setActiveTab(tab.key)}
-                      className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 shadow-sm ${
+                      className={`px-5 py-2 rounded-full text-sm font-semibold transition-[color,background-color] duration-300 ease-smooth shadow-sm ${
                         activeTab === tab.key ? "bg-coral text-white" : "bg-white text-navy hover:bg-coral-subtle hover:text-coral"
                       }`}
                     >
@@ -260,14 +282,14 @@ export default function Home() {
               <div className="relative group bg-white/95 backdrop-blur-xl">
                 <button
                   onClick={() => scrollInterest("left")}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white shadow-lg border border-[#E5E5E0] flex items-center justify-center text-navy hover:bg-coral hover:text-white hover:border-coral transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white shadow-lg border border-[#E5E5E0] flex items-center justify-center text-navy hover:bg-coral hover:text-white hover:border-coral transition-[color,background-color,border-color] opacity-0 group-hover:opacity-100 focus:opacity-100"
                   aria-label="Scroll left"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => scrollInterest("right")}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white shadow-lg border border-[#E5E5E0] flex items-center justify-center text-navy hover:bg-coral hover:text-white hover:border-coral transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white shadow-lg border border-[#E5E5E0] flex items-center justify-center text-navy hover:bg-coral hover:text-white hover:border-coral transition-[color,background-color,border-color] opacity-0 group-hover:opacity-100 focus:opacity-100"
                   aria-label="Scroll right"
                 >
                   <ChevronRight className="w-5 h-5" />
@@ -283,7 +305,7 @@ export default function Home() {
                         key={cat.name}
                         href={`/products?category=${encodeURIComponent(cat.name)}`}
                         data-interest-card
-                        className="interest-card flex-shrink-0 w-[140px] sm:w-[160px] group bg-[#FAFAF8] hover:bg-white rounded-2xl border border-[#E5E5E0] p-5 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover"
+                        className="interest-card flex-shrink-0 w-[140px] sm:w-[160px] group bg-[#FAFAF8] hover:bg-white rounded-2xl border border-[#E5E5E0] p-5 flex flex-col items-center text-center transition-[transform,box-shadow,background-color] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover"
                       >
                         <div className="w-12 h-12 rounded-xl bg-coral-subtle text-coral flex items-center justify-center mb-3 transition-colors group-hover:bg-coral group-hover:text-white">
                           {cat.icon}
@@ -297,7 +319,7 @@ export default function Home() {
                         key={method.name}
                         href={`/products?application=${encodeURIComponent(method.name)}`}
                         data-interest-card
-                        className="interest-card flex-shrink-0 w-[160px] sm:w-[180px] group bg-[#FAFAF8] hover:bg-white rounded-2xl border border-[#E5E5E0] p-5 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover"
+                        className="interest-card flex-shrink-0 w-[160px] sm:w-[180px] group bg-[#FAFAF8] hover:bg-white rounded-2xl border border-[#E5E5E0] p-5 flex flex-col items-center text-center transition-[transform,box-shadow,background-color] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover"
                       >
                         <div className="w-12 h-12 rounded-xl bg-coral-subtle text-coral flex items-center justify-center mb-3 transition-colors group-hover:bg-coral group-hover:text-white">
                           {method.icon}
@@ -312,7 +334,7 @@ export default function Home() {
                         key={card.title}
                         href={card.link}
                         data-interest-card
-                        className="interest-card flex-shrink-0 w-[200px] sm:w-[220px] group bg-[#FAFAF8] hover:bg-white rounded-2xl border border-[#E5E5E0] p-5 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover overflow-hidden"
+                        className="interest-card flex-shrink-0 w-[200px] sm:w-[220px] group bg-[#FAFAF8] hover:bg-white rounded-2xl border border-[#E5E5E0] p-5 flex flex-col transition-[transform,box-shadow,background-color] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover overflow-hidden"
                       >
                         <div className="flex items-center justify-between mb-3">
                           <div
@@ -345,7 +367,7 @@ export default function Home() {
             {/* Left: text card */}
             <Link
               href={promotedContent.textCard.link}
-              className="promo-card lg:col-span-3 group flex flex-col justify-between bg-white rounded-2xl border border-[#E5E5E0] p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover h-full"
+              className="promo-card lg:col-span-3 group flex flex-col justify-between bg-white rounded-2xl border border-[#E5E5E0] p-6 transition-[transform,box-shadow] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover h-full"
             >
               <div>
                 <h3 className="text-xl font-bold text-navy font-heading mb-4 group-hover:text-coral transition-colors">
@@ -390,7 +412,7 @@ export default function Home() {
                 <Link
                   key={i}
                   href={card.link}
-                  className="promo-card group flex flex-row bg-white rounded-2xl border border-[#E5E5E0] overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover flex-1"
+                  className="promo-card group flex flex-row bg-white rounded-2xl border border-[#E5E5E0] overflow-hidden transition-[transform,box-shadow] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover flex-1"
                 >
                   <div className="flex-1 p-5 flex flex-col justify-between">
                     <div>
@@ -436,7 +458,7 @@ export default function Home() {
               <Link
                 key={product.slug}
                 href={`/products/${product.slug}`}
-                className="feat-card group bg-white rounded-2xl border border-[#E5E5E0] p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover flex flex-col h-full"
+                className="feat-card group bg-white rounded-2xl border border-[#E5E5E0] p-6 transition-[transform,box-shadow] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover flex flex-col h-full"
               >
                 <div className="flex-1">
                   <h3 className="text-base font-bold text-navy font-heading mb-1 group-hover:text-coral transition-colors line-clamp-2">
@@ -479,7 +501,7 @@ export default function Home() {
               <Link
                 key={post.slug}
                 href={`/products/${post.slug}`}
-                className="blog-card group relative flex flex-col bg-white rounded-3xl border border-[#E5E5E0] p-5 transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover h-full"
+                className="blog-card group relative flex flex-col bg-white rounded-3xl border border-[#E5E5E0] p-5 transition-[transform,box-shadow] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover h-full"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full overflow-hidden bg-[#F5F5F0] border border-[#E5E5E0] relative">
@@ -514,7 +536,7 @@ export default function Home() {
 
                 <div
                   aria-hidden="true"
-                  className="absolute bottom-5 right-5 w-9 h-9 rounded-full border border-[#E5E5E0] bg-white text-navy flex items-center justify-center transition-all duration-300 group-hover:bg-coral group-hover:border-coral group-hover:text-white"
+                  className="absolute bottom-5 right-5 w-9 h-9 rounded-full border border-[#E5E5E0] bg-white text-navy flex items-center justify-center transition-[color,background-color,border-color] duration-300 ease-smooth group-hover:bg-coral group-hover:border-coral group-hover:text-white"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </div>

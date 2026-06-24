@@ -83,7 +83,7 @@ export default function Products() {
               <Link
                 key={product.slug}
                 href={`/products/${product.slug}`}
-                className="group bg-white rounded-2xl border border-[#E5E5E0] p-6 flex flex-col transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover"
+                className="group bg-white rounded-2xl border border-[#E5E5E0] p-6 flex flex-col transition-[transform,box-shadow] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover"
               >
                 <h3 className="text-card-title font-bold text-navy font-heading mb-3 group-hover:text-coral transition-colors">
                   {product.name}
@@ -121,7 +121,7 @@ export default function Products() {
           >
             <button
               onClick={() => setSelectedCategory("All")}
-              className={`shrink-0 px-4 py-2 rounded-xl text-[13px] font-medium transition-all ${selectedCategory === "All" ? "bg-navy text-white" : "bg-[#FAFAF8] text-[#6B6B6B] hover:text-navy border border-[#E5E5E0]"}`}
+              className={`shrink-0 px-4 py-2 rounded-xl text-[13px] font-medium transition-[color,background-color] duration-200 ease-smooth ${selectedCategory === "All" ? "bg-navy text-white" : "bg-[#FAFAF8] text-[#6B6B6B] hover:text-navy border border-[#E5E5E0]"}`}
             >
               All Products
             </button>
@@ -129,7 +129,7 @@ export default function Products() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(selectedCategory === cat ? "All" : cat)}
-                className={`shrink-0 px-4 py-2 rounded-xl text-[13px] font-medium transition-all ${selectedCategory === cat ? "bg-navy text-white" : "bg-[#FAFAF8] text-[#6B6B6B] hover:text-navy border border-[#E5E5E0]"}`}
+                className={`shrink-0 px-4 py-2 rounded-xl text-[13px] font-medium transition-[color,background-color] duration-200 ease-smooth ${selectedCategory === cat ? "bg-navy text-white" : "bg-[#FAFAF8] text-[#6B6B6B] hover:text-navy border border-[#E5E5E0]"}`}
               >
                 {cat}
               </button>
@@ -167,7 +167,7 @@ export default function Products() {
                   <button
                     key={opt.label}
                     onClick={() => setSortIndex(i)}
-                    className={`px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all ${sortIndex === i ? "bg-white text-navy shadow-sm" : "text-[#9CA3AF] hover:text-navy"}`}
+                    className={`px-3 py-1.5 rounded-lg text-[12px] font-medium transition-[color,background-color,box-shadow] duration-200 ease-smooth ${sortIndex === i ? "bg-white text-navy shadow-sm" : "text-[#9CA3AF] hover:text-navy"}`}
                   >
                     {opt.label}
                   </button>
@@ -210,7 +210,7 @@ export default function Products() {
                     <button
                       key={cat}
                       onClick={() => setSelectedCategory(selectedCategory === cat ? "All" : cat)}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all text-left ${selectedCategory === cat ? "bg-coral-subtle/40 text-coral font-semibold" : "text-[#6B6B6B] hover:bg-[#FAFAF8]"}`}
+                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-[color,background-color] duration-200 ease-smooth text-left ${selectedCategory === cat ? "bg-coral-subtle/40 text-coral font-semibold" : "text-[#6B6B6B] hover:bg-[#FAFAF8]"}`}
                     >
                       <span className={`w-1.5 h-1.5 rounded-full transition-colors ${selectedCategory === cat ? "bg-coral" : "bg-[#E5E5E0]"}`} />
                       {cat}
@@ -233,7 +233,7 @@ export default function Products() {
                     <button
                       key={line}
                       onClick={() => setSelectedProductLine(selectedProductLine === line ? "All" : line)}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all text-left ${selectedProductLine === line ? "bg-coral-subtle/40 text-coral font-semibold" : "text-[#6B6B6B] hover:bg-[#FAFAF8]"}`}
+                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-[color,background-color] duration-200 ease-smooth text-left ${selectedProductLine === line ? "bg-coral-subtle/40 text-coral font-semibold" : "text-[#6B6B6B] hover:bg-[#FAFAF8]"}`}
                     >
                       <span className={`w-1.5 h-1.5 rounded-full transition-colors ${selectedProductLine === line ? "bg-coral" : "bg-[#E5E5E0]"}`} />
                       {line}
@@ -259,9 +259,9 @@ export default function Products() {
                 >
                   {paginatedProducts.map(product => (
                     <Link key={product.slug} href={`/products/${product.slug}`}
-                      className="group relative bg-white rounded-2xl overflow-hidden border border-[#E5E5E0] hover:border-coral/20 transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover"
+                      className="group relative bg-white rounded-2xl overflow-hidden border border-[#E5E5E0] hover:border-coral/20 transition-[transform,box-shadow,border-color] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover"
                     >
-                      <div className="absolute top-0 left-5 right-5 h-[2px] bg-coral rounded-full opacity-0 group-hover:opacity-100 group-hover:left-3 group-hover:right-3 transition-all duration-500"
+                      <div className="absolute top-0 left-5 right-5 h-[2px] bg-coral rounded-full opacity-0 group-hover:opacity-100 group-hover:left-3 group-hover:right-3 transition-[transform,opacity] duration-500 ease-smooth"
                       />
                       <div className="relative aspect-[3/4] bg-gradient-to-b from-[#F5F5F0] to-[#FAFAF8] p-6 flex items-center justify-center overflow-hidden"
                       >
@@ -295,7 +295,7 @@ export default function Products() {
                 >
                   {paginatedProducts.map(product => (
                     <Link key={product.slug} href={`/products/${product.slug}`}
-                      className="group flex gap-5 bg-white rounded-2xl p-4 border border-[#E5E5E0] hover:border-coral/30 transition-all hover:-translate-y-0.5 hover:shadow-card"
+                      className="group flex gap-5 bg-white rounded-2xl p-4 border border-[#E5E5E0] hover:border-coral/30 transition-[transform,box-shadow,border-color] duration-200 ease-smooth hover:-translate-y-0.5 hover:shadow-card"
                     >
                       <div className="w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-b from-[#F5F5F0] to-[#FAFAF8] rounded-xl flex items-center justify-center shrink-0 p-3"
                       >

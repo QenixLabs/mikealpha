@@ -32,7 +32,7 @@ export default function Contact() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {cards.map(card => (
-              <div key={card.title} className="bg-white rounded-2xl border border-[#E5E5E0] shadow-card p-6 text-center group hover:-translate-y-1 transition-all duration-300 hover:border-coral/20">
+              <div key={card.title} className="bg-white rounded-2xl border border-[#E5E5E0] shadow-card p-6 text-center group hover:-translate-y-1 transition-[transform,box-shadow,border-color] duration-300 ease-smooth hover:border-coral/20">
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-coral-subtle rounded-xl text-coral mb-4 group-hover:scale-110 transition-transform">
                   {card.icon}
                 </div>
@@ -76,24 +76,24 @@ export default function Contact() {
                     <div>
                       <label className="block text-sm font-medium text-navy mb-1.5">Full Name</label>
                       <input type="text" required value={formState.name} onChange={e => setFormState({...formState, name: e.target.value})} placeholder="Your name"
-                        className="w-full px-4 py-3.5 rounded-xl border border-[#E5E5E0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all" />
+                        className="w-full px-4 py-3.5 rounded-xl border border-[#E5E5E0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-[border-color,box-shadow] duration-200 ease-smooth" />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-navy mb-1.5">Email</label>
                       <input type="email" required value={formState.email} onChange={e => setFormState({...formState, email: e.target.value})} placeholder="your@email.com"
-                        className="w-full px-4 py-3.5 rounded-xl border border-[#E5E5E0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all" />
+                        className="w-full px-4 py-3.5 rounded-xl border border-[#E5E5E0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-[border-color,box-shadow] duration-200 ease-smooth" />
                     </div>
                   </div>
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-sm font-medium text-navy mb-1.5">Phone</label>
                       <input type="tel" value={formState.phone} onChange={e => setFormState({...formState, phone: e.target.value})} placeholder="+91 ..."
-                        className="w-full px-4 py-3.5 rounded-xl border border-[#E5E5E0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all" />
+                        className="w-full px-4 py-3.5 rounded-xl border border-[#E5E5E0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-[border-color,box-shadow] duration-200 ease-smooth" />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-navy mb-1.5">Subject</label>
                       <select value={formState.subject} onChange={e => setFormState({...formState, subject: e.target.value})}
-                        className="w-full px-4 py-3.5 rounded-xl border border-[#E5E5E0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all"
+                        className="w-full px-4 py-3.5 rounded-xl border border-[#E5E5E0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-[border-color,box-shadow] duration-200 ease-smooth"
                       >
                         {["Product Inquiry", "Technical Support", "Dealer Inquiry", "Other"].map(o => <option key={o}>{o}</option>)}
                       </select>
@@ -102,9 +102,9 @@ export default function Contact() {
                   <div>
                     <label className="block text-sm font-medium text-navy mb-1.5">Message</label>
                     <textarea required rows={4} value={formState.message} onChange={e => setFormState({...formState, message: e.target.value})} placeholder="Tell us about your requirements..."
-                      className="w-full px-4 py-3.5 rounded-xl border border-[#E5E5E0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all resize-none" />
+                      className="w-full px-4 py-3.5 rounded-xl border border-[#E5E5E0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-[border-color,box-shadow] duration-200 ease-smooth resize-none" />
                   </div>
-                  <button type="submit" className="group w-full bg-coral hover:bg-coral-dark text-white font-semibold py-4 rounded-xl transition-all flex items-center justify-center gap-2 hover:shadow-lg">
+                  <button type="submit" className="group w-full bg-coral hover:bg-coral-dark text-white font-semibold py-4 rounded-xl transition-[color,background-color,box-shadow] duration-200 ease-smooth flex items-center justify-center gap-2 hover:shadow-lg">
                     <Send className="w-4 h-4" /> Send Message
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                   </button>

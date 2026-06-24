@@ -121,11 +121,11 @@ export default function ProductDetail() {
 
               <div className="flex flex-wrap gap-3"
               >
-                <button className="flex items-center gap-2 border border-[#E5E5E0] hover:border-navy/30 text-navy/70 hover:text-navy font-medium px-6 py-3.5 rounded-xl transition-all text-sm bg-white hover:shadow-sm"
+                <button className="flex items-center gap-2 border border-[#E5E5E0] hover:border-navy/30 text-navy/70 hover:text-navy font-medium px-6 py-3.5 rounded-xl transition-[color,background-color,border-color,box-shadow] duration-200 ease-smooth text-sm bg-white hover:shadow-sm"
                 >
                   <Download className="w-4 h-4" /> Datasheet
                 </button>
-                <Link href="/contact" className="group flex items-center gap-2 bg-coral hover:bg-coral-dark text-white font-semibold px-6 py-3.5 rounded-xl transition-all text-sm"
+                <Link href="/contact" className="group flex items-center gap-2 bg-coral hover:bg-coral-dark text-white font-semibold px-6 py-3.5 rounded-xl transition-[color,background-color] duration-200 ease-smooth text-sm"
                 >
                   <Phone className="w-4 h-4" /> Enquire Now
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
@@ -281,9 +281,9 @@ export default function ProductDetail() {
                   >
                     {related.map(rp => (
                       <Link key={rp.slug} href={`/products/${rp.slug}`}
-                        className="group relative bg-white border border-[#E5E5E0] rounded-2xl overflow-hidden hover:border-coral/20 transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover"
+                        className="group relative bg-white border border-[#E5E5E0] rounded-2xl overflow-hidden hover:border-coral/20 transition-[transform,box-shadow,border-color] duration-300 ease-smooth hover:-translate-y-1 hover:shadow-card-hover"
                       >
-                        <div className="absolute top-0 left-4 right-4 h-[2px] bg-coral rounded-full opacity-0 group-hover:opacity-100 group-hover:left-2 group-hover:right-2 transition-all duration-500"
+                        <div className="absolute top-0 left-4 right-4 h-[2px] bg-coral rounded-full opacity-0 group-hover:opacity-100 group-hover:left-2 group-hover:right-2 transition-[transform,opacity] duration-500 ease-smooth"
                         />
                         <div className="aspect-square p-5 flex items-center justify-center bg-gradient-to-b from-[#F5F5F0] to-[#FAFAF8]"
                         >
