@@ -39,9 +39,30 @@ export default function Products() {
     return result
   }, [selectedCategory, selectedProductLine, sortIndex])
 
+  const npkGrades = useMemo(() => [
+    { formula: "NPK 15-5-5", slug: "maxima-15-5-5" },
+    { formula: "NPK 10-14-5", slug: "maxima-10-14-5" },
+    { formula: "NPK 10-5-10", slug: "maxima-10-5-10" },
+    { formula: "NPK 8-10-12", slug: "maxima-8-10-12" },
+    { formula: "NPK 8-5-12", slug: "maxima-8-5-12" },
+    { formula: "NPK 7-10-6", slug: "maxima-7-10-6" },
+    { formula: "NPK 5-5-15", slug: "maxima-5-5-15" },
+    { formula: "NP 5-20-0", slug: "maxima-5-20-0" },
+    { formula: "NK 20-0-5", slug: "maxima-20-0-5" },
+  ], [])
+
+  const displayProducts = useMemo(() => {
+    if (selectedCategory === "All") {
+      const npkProduct = products.find(p => p.slug === "maxima-15-5-5")!
+      const otherProducts = filteredProducts.filter(p => p.category !== "NPK Fertilizers")
+      return [npkProduct, ...otherProducts]
+    }
+    return filteredProducts
+  }, [filteredProducts, selectedCategory])
+
   const ITEMS_PER_PAGE = 12
-  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)
-  const paginatedProducts = filteredProducts.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
+  const totalPages = Math.ceil(displayProducts.length / ITEMS_PER_PAGE)
+  const paginatedProducts = displayProducts.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
 
   useEffect(() => { setPage(1) }, [selectedCategory, selectedProductLine])
 
@@ -147,7 +168,7 @@ export default function Products() {
           >
             <p className="text-sm text-[#9CA3AF]"
             >
-              Showing {(page - 1) * ITEMS_PER_PAGE + 1}&ndash;{Math.min(page * ITEMS_PER_PAGE, filteredProducts.length)} of {filteredProducts.length} results
+              Showing {(page - 1) * ITEMS_PER_PAGE + 1}&ndash;{Math.min(page * ITEMS_PER_PAGE, displayProducts.length)} of {displayProducts.length} results
               {activeFiltersCount > 0 && (
                 <span className="text-coral ml-2">({activeFiltersCount} filter{activeFiltersCount > 1 ? "s" : ""})</span>
               )}
@@ -254,7 +275,38 @@ export default function Products() {
             {/* Grid */}
             <div className="flex-1 min-w-0"
             >
-              {viewMode === "grid" ? (
+              {selectedCategory === "NPK Fertilizers" ? (
+                <div className="max-w-2xl mx-auto">
+                  <div className="bg-white rounded-2xl border border-[#E5E5E0] overflow-hidden">
+                    <div className="bg-gradient-to-b from-[#F5F5F0] to-[#FAFAF8] p-12 flex items-center justify-center">
+                      <img
+                        src="/products/All Products_Maxima.png"
+                        alt="NPK Fertilizer Bag"
+                        className="max-h-[400px] object-contain mix-blend-multiply"
+                      />
+                    </div>
+                    <div className="p-8">
+                      <h3 className="text-xl font-bold text-navy font-heading mb-2">Mike Maxima NPK Fertilizers</h3>
+                      <p className="text-sm text-[#6B6B6B] mb-6">Precision-balanced NPK formulations with micronutrients and amino acids for complete crop nutrition.</p>
+                      <div className="border-t border-[#E5E5E0] pt-6">
+                        <p className="text-[11px] font-semibold uppercase tracking-[3px] text-[#9CA3AF] mb-4">Available Grades</p>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                          {npkGrades.map((grade) => (
+                            <Link
+                              key={grade.slug}
+                              href={`/products/${grade.slug}`}
+                              className="flex items-center justify-between px-4 py-3 bg-[#FAFAF8] rounded-xl text-sm font-medium text-navy hover:bg-coral-subtle hover:text-coral transition-colors"
+                            >
+                              <span>{grade.formula}</span>
+                              <ArrowRight className="w-4 h-4" />
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : viewMode === "grid" ? (
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
                 >
                   {paginatedProducts.map(product => (
@@ -339,7 +391,7 @@ export default function Products() {
                 </div>
               )}
 
-              {filteredProducts.length === 0 && (
+              {displayProducts.length === 0 && (
                 <div className="text-center py-20"
                 >
                   <p className="text-lg text-[#9CA3AF] mb-4"
